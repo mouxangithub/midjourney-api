@@ -31,7 +31,7 @@ router.post("/imagine", upload.any(), async (req, res) => {
   }
 });
 
-router.post("/upsample", async (req, res) => {
+router.post("/upsample", upload.any(), async (req, res) => {
   try {
     var q = getQuery(req),
       id = q.id || "",
@@ -61,7 +61,7 @@ router.post("/upsample", async (req, res) => {
   }
 });
 
-router.post("/variation", async (req, res) => {
+router.post("/variation", upload.any(), async (req, res) => {
   try {
     var q = getQuery(req),
       id = q.id || "",
@@ -92,7 +92,7 @@ router.post("/variation", async (req, res) => {
   }
 });
 
-router.post("/integrity", async (req, res) => {
+router.post("/integrity", upload.any(), async (req, res) => {
   try {
     var q = getQuery(req),
       id = q.id || "",
@@ -125,7 +125,7 @@ router.post("/integrity", async (req, res) => {
   }
 });
 
-router.post("/describe", async (req, res) => {
+router.post("/describe", upload.any(), async (req, res) => {
   try {
     var q = getQuery(req),
       base64 = q.base64 || "";
@@ -147,7 +147,7 @@ router.post("/describe", async (req, res) => {
   }
 });
 
-router.post("/reroll", async (req, res) => {
+router.post("/reroll", upload.any(), async (req, res) => {
   try {
     var q = getQuery(req),
       id = q.id || "",
@@ -170,7 +170,7 @@ router.post("/reroll", async (req, res) => {
   }
 });
 
-router.post("/shorten", async (req, res) => {
+router.post("/shorten", upload.any(), async (req, res) => {
   try {
     var q = getQuery(req),
       prompt = q.prompt || "";

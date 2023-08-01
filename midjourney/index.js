@@ -22,12 +22,10 @@ const custom2Type = (custom) => {
     return "pan";
   } else if (custom.includes("variation")) {
     return "variation";
-  } else if (custom.includes("reroll")) {
+  } else if (custom.includes("reroll") || custom.includes("remaster")) {
     return "reroll";
   } else if (custom.includes("CustomZoom")) {
     return "customZoom";
-  } else if (custom.includes("remaster")) {
-    return "reroll";
   }
   return null;
 };
@@ -134,7 +132,12 @@ export class Midjourney extends MidjourneyMessage {
           });
         }
         const customId = `MJ::JOB::upsample::${index}::${cache.origin.hash}`;
-        var data = await this.Custom(customId, cache.prompt, cache.origin, "UPSCALE");
+        var data = await this.Custom(
+          customId,
+          cache.prompt,
+          cache.origin,
+          "UPSCALE"
+        );
         resolve(data);
       } catch (error) {
         reject(error);
@@ -187,8 +190,17 @@ export class Midjourney extends MidjourneyMessage {
         let customId, action;
         level = level.toLowerCase();
         if (level.startsWith("zoom")) {
+          const result = level.split("zoom").join("");
+          let pattern = /^[0-9]+([.]{1}[0-9]+){0,1}$/;
+          if (!pattern.test(result)) {
+            return reject({
+              code: 500,
+              msg: "请输入整数或者小数的zoom值",
+            });
+          }
           customId = `MJ::CustomZoom::${hash}`;
           action = "ZOOMOUT";
+          prompt += `--zoom ${result}`;
         } else {
           switch (level) {
             case "strong":
@@ -516,7 +528,9 @@ export class Midjourney extends MidjourneyMessage {
                 const panHttpStatus = await this.MJApi.ModalSubmitApi({
                   nonce: newNonce,
                   msgId: id,
-                  customId: `MJ::PanModal::${parts[2].replace("pan_", "")}::${parts[4]}`,
+                  customId: `MJ::PanModal::${parts[2].replace("pan_", "")}::${
+                    parts[4]
+                  }`,
                   prompt,
                   submitCustomId: "MJ::PanModal::prompt",
                 });

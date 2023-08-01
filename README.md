@@ -10,6 +10,8 @@ node版本要求：Node.js > 18
 
 第一版时间紧凑，随便先发一下，过后慢慢完善
 
+## 接口文档地址：https://console-docs.apipost.cn/preview/75480e45c043adf1/e78b73f9714ca480
+
 ## 已实现的API
 - [x] /fetch 查询任务信息 GET
 - [x] /imagine 想象 POST
